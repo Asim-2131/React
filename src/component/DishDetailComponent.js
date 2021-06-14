@@ -45,7 +45,7 @@ class CommentForm extends Component{
                                 <Col className = "col-12">
                                     <Control.select model=".rating" name="rating"
                                         className="form-control">
-                                        <option selected>1</option>
+                                        <option>1</option>
                                         <option>2</option>
                                         <option>3</option>
                                         <option>4</option>
