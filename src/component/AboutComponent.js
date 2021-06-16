@@ -1,20 +1,36 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import {baseUrl} from '../shared/baseUrl';
+import {Loading} from './LoadingComponent';
+import {Fade, Stagger} from 'react-animation-components'
 
-function RenderLeaders({leader}){
+function RenderLeaders({leader,isLoading,errMess}){
+    if (isLoading) {
+        return(
+                <Loading />
+        );
+    }
+    else if (errMess) {
+        return(
+                <h4>{errMess}</h4>
+        );
+    }
     return(
+        
         <div className = "container" className = "mt-3">
-            <Media tag = "li" >
-                <Media left middle>
-                    <Media object src = {leader.image}></Media>
+            <Fade in>
+                <Media tag = "li" >
+                    <Media left middle>
+                        <Media object src = {baseUrl + leader.image}></Media>
+                    </Media>
+                    <Media body className = "ml-5">
+                        <Media Heading><h2>{leader.name}</h2></Media>
+                        <Media Children className = "mb-3">{leader.designation}</Media>
+                        <p>{leader.description}</p>
+                    </Media>
                 </Media>
-                <Media body className = "ml-5">
-                    <Media Heading><h2>{leader.name}</h2></Media>
-                    <Media Children className = "mb-3">{leader.designation}</Media>
-                    <p>{leader.description}</p>
-                </Media>
-            </Media>
+            </Fade>
         </div>
     );
 }
@@ -24,7 +40,11 @@ function About(props) {
     const leaders = props.leaders.map((leader) => {
         return (
             <div key = {leader.id}>
-                <RenderLeaders leader = {leader}/>
+                <Stagger in>
+                <RenderLeaders leader = {leader}
+                                isLoading = {props.leadersLoading}
+                                errMess = {props.leadersErrMess}/>
+                                </Stagger>
             </div>
         );
     });
